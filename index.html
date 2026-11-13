@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR" ng-app="app">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Central de Ajuda</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body ng-controller="AjudaController">
+
+  <header class="topo">
+    <h1>Central de Ajuda</h1>
+    <p>Encontre artigos, tire dúvidas e acompanhe sua leitura.</p>
+    <!-- Componente 3: Barra de Progresso -->
+    <barra-progresso valor="progresso" rotulo="Artigos lidos"></barra-progresso>
+  </header>
+
+  <main class="conteudo">
+
+    <section class="filtros">
+      <input type="search" placeholder="Buscar artigo..." ng-model="busca" ng-change="irPara(1)">
+      <!-- Componente 5: Menu Suspenso -->
+      <menu-suspenso rotulo="Categoria" opcoes="categorias" selecionado="categoria"
+                     ao-selecionar="mudarCategoria(opcao)"></menu-suspenso>
+    </section>
+
+    <div class="grade">
+      <section class="cartao">
+        <h2>Artigos <small>({{ total }})</small></h2>
+        <p class="vazio" ng-if="!visiveis.length">Nenhum artigo encontrado.</p>
+        <ul class="lista">
+          <li ng-repeat="a in visiveis" ng-class="{ativo: a.id === artigo.id}">
+            <button ng-click="selecionar(a)">
+              <span class="tag">{{ a.categoria | uppercase }}</span>
+              <strong>{{ a.titulo }}</strong>
+              <span>{{ a.resumo | resumir:70 }}</span>
+              <small>Atualizado em {{ a.atualizadoEm | date:'dd/MM/yyyy' }}<span ng-if="lido(a.id)"> · ✓ lido</span></small>
+            </button>
+          </li>
+        </ul>
+        <!-- Componente 2: Paginação -->
+        <paginacao total="totalPaginas" atual="pagina" ao-mudar="irPara(pagina)"></paginacao>
+      </section>
+
+      <section class="cartao">
+        <h2>{{ artigo.titulo }}</h2>
+        <!-- Componente 4: Abas -->
+        <abas itens="abas"></abas>
+        <button class="btn" ng-click="marcarLido(artigo)">Marcar como lido</button>
+
+        <label for="feedback">Este artigo ajudou? Deixe seu feedback:</label>
+        <textarea id="feedback" rows="3" ng-model="form.mensagem" placeholder="Escreva aqui..."></textarea>
+        <button class="btn" ng-click="enviarFeedback()">Enviar feedback</button>
+      </section>
+    </div>
+
+    <section class="cartao">
+      <h2>Perguntas Frequentes</h2>
+      <!-- Componente 1: Acordeão -->
+      <accordion itens="faq"></accordion>
+    </section>
+
+  </main>
+
+  <!-- Componente 6: Notificação Toast -->
+  <toast-container></toast-container>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/filtros.js"></script>
+  <script src="js/servicos/artigos.js"></script>
+  <script src="js/servicos/toast.js"></script>
+  <script src="js/diretivas/accordion.js"></script>
+  <script src="js/diretivas/paginacao.js"></script>
+  <script src="js/diretivas/barra-progresso.js"></script>
+  <script src="js/diretivas/abas.js"></script>
+  <script src="js/diretivas/menu-suspenso.js"></script>
+  <script src="js/diretivas/toast.js"></script>
+  <script src="js/controladores/ajuda.js"></script>
+</body>
+</html>

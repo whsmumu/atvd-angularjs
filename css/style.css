@@ -1,0 +1,88 @@
+/* Mobile-first: estilos base para celular; media queries ampliam para tablet/desktop. */
+:root {
+  --cor: #2563eb; --cor-escura: #1e40af; --fundo: #f3f4f6; --cartao: #fff;
+  --texto: #1f2937; --suave: #6b7280; --borda: #e5e7eb;
+  --ok: #16a34a; --erro: #dc2626; --info: #2563eb;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, sans-serif; background: var(--fundo); color: var(--texto); line-height: 1.5; }
+button, input, textarea { font: inherit; }
+button { cursor: pointer; }
+button:disabled { opacity: .5; cursor: not-allowed; }
+
+/* Diretivas são elementos customizados: precisam de display */
+accordion, abas, paginacao, barra-progresso, menu-suspenso, toast-container { display: block; }
+
+/* Layout */
+.topo { background: var(--cor); color: #fff; padding: 1.5rem 1rem; }
+.topo h1 { margin: 0; font-size: 1.6rem; }
+.topo p { margin: .25rem 0 1rem; opacity: .9; }
+.conteudo { max-width: 1100px; margin: 0 auto; padding: 1rem; display: grid; gap: 1rem; }
+.filtros { display: flex; flex-direction: column; gap: .75rem; }
+.grade { display: grid; gap: 1rem; }
+.cartao { background: var(--cartao); border: 1px solid var(--borda); border-radius: 10px; padding: 1rem; }
+.cartao h2 { margin: 0 0 .75rem; font-size: 1.15rem; }
+.cartao h2 small { color: var(--suave); font-weight: normal; }
+.vazio { color: var(--suave); }
+
+input[type="search"], textarea { width: 100%; padding: .6rem .75rem; border: 1px solid var(--borda); border-radius: 8px; background: #fff; }
+label { display: block; margin: 1rem 0 .25rem; font-size: .9rem; color: var(--suave); }
+.btn { margin-top: .75rem; padding: .55rem 1rem; border: 0; border-radius: 8px; background: var(--cor); color: #fff; }
+.btn:hover { background: var(--cor-escura); }
+
+/* Lista de artigos */
+.lista { list-style: none; margin: 0 0 1rem; padding: 0; display: grid; gap: .5rem; }
+.lista button { width: 100%; text-align: left; display: grid; gap: .15rem; padding: .7rem; background: #fff; border: 1px solid var(--borda); border-radius: 8px; }
+.lista button:hover, .lista li.ativo button { border-color: var(--cor); background: #eff6ff; }
+.lista small { color: var(--suave); }
+.tag { font-size: .7rem; font-weight: 700; color: var(--cor); letter-spacing: .05em; }
+
+/* 1. Acordeão (transição suave via grid-template-rows) */
+.acordeao-item { border: 1px solid var(--borda); border-radius: 8px; margin-bottom: .5rem; overflow: hidden; }
+.acordeao-titulo { width: 100%; display: flex; justify-content: space-between; align-items: center; gap: .5rem; padding: .8rem; border: 0; background: #fff; text-align: left; font-weight: 600; }
+.acordeao-corpo { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .3s ease; }
+.acordeao-corpo > div { overflow: hidden; }
+.acordeao-corpo p { margin: 0; padding: 0 .8rem .8rem; color: var(--suave); }
+.acordeao-item.aberto .acordeao-corpo { grid-template-rows: 1fr; }
+.seta { transition: transform .3s; }
+.acordeao-item.aberto .seta { transform: rotate(180deg); }
+
+/* 2. Paginação */
+.paginacao { display: flex; flex-wrap: wrap; gap: .35rem; justify-content: center; }
+.paginacao button { min-width: 2.2rem; padding: .4rem .7rem; border: 1px solid var(--borda); border-radius: 6px; background: #fff; }
+.paginacao button.ativa { background: var(--cor); border-color: var(--cor); color: #fff; font-weight: 700; }
+
+/* 3. Barra de progresso */
+.progresso-info { display: flex; justify-content: space-between; font-size: .9rem; margin-bottom: .25rem; }
+.progresso-trilho { height: 12px; background: rgba(255, 255, 255, .3); border-radius: 999px; overflow: hidden; }
+.progresso-barra { height: 100%; background: #fff; border-radius: 999px; transition: width .4s ease; }
+
+/* 4. Abas */
+.abas-lista { display: flex; gap: .25rem; border-bottom: 2px solid var(--borda); overflow-x: auto; overflow-y: hidden; }
+.abas-lista button { padding: .5rem .9rem; border: 0; background: none; color: var(--suave); border-bottom: 2px solid transparent; margin-bottom: -2px; white-space: nowrap; }
+.abas-lista button.ativa { color: var(--cor); border-bottom-color: var(--cor); font-weight: 600; }
+.abas-painel { padding: .9rem 0; white-space: pre-line; min-height: 5.5rem; }
+
+/* 5. Menu suspenso */
+.menu { position: relative; display: inline-block; }
+.menu-botao { width: 100%; padding: .6rem .9rem; border: 1px solid var(--borda); border-radius: 8px; background: #fff; text-align: left; }
+.menu-lista { position: absolute; z-index: 10; top: calc(100% + 4px); left: 0; min-width: 100%; margin: 0; padding: .25rem; list-style: none; background: #fff; border: 1px solid var(--borda); border-radius: 8px; box-shadow: 0 6px 18px rgba(0, 0, 0, .12); }
+.menu-lista button { width: 100%; padding: .45rem .7rem; border: 0; border-radius: 6px; background: none; text-align: left; white-space: nowrap; }
+.menu-lista button:hover, .menu-lista button.ativa { background: #eff6ff; color: var(--cor); }
+
+/* 6. Toast */
+.toasts { position: fixed; z-index: 20; right: 1rem; left: 1rem; bottom: 1rem; display: grid; gap: .5rem; justify-items: end; pointer-events: none; }
+.toast { pointer-events: auto; display: flex; align-items: center; gap: .75rem; max-width: 100%; padding: .7rem 1rem; border-radius: 8px; color: #fff; box-shadow: 0 6px 18px rgba(0, 0, 0, .2); animation: entrar .25s ease; }
+.toast.sucesso { background: var(--ok); }
+.toast.erro { background: var(--erro); }
+.toast.info { background: var(--info); }
+.toast button { border: 0; background: none; color: #fff; font-size: 1.2rem; line-height: 1; }
+@keyframes entrar { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+/* Tablet em diante */
+@media (min-width: 768px) {
+  .filtros { flex-direction: row; }
+  .filtros input { flex: 1; }
+  .grade { grid-template-columns: 1fr 1fr; align-items: start; }
+  .toasts { left: auto; width: 320px; }
+}
