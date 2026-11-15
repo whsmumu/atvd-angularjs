@@ -59,9 +59,10 @@ angular.module('app.servicos').factory('ArtigosService', function () {
     categorias: ['Conta', 'Pagamentos', 'Segurança', 'Suporte'],
     lido: function (id) { return !!lidos[id]; },
     marcarLido: function (id) { lidos[id] = true; },
+    totalLidos: function () { return Object.keys(lidos).length; },
     // Progresso de leitura em % (0-100)
     progresso: function () {
-      return Math.round(Object.keys(lidos).length / lista.length * 100);
+      return Math.round(this.totalLidos() / lista.length * 100);
     }
   };
 });

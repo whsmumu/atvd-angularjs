@@ -8,61 +8,169 @@
 </head>
 <body ng-controller="AjudaController">
 
-  <header class="topo">
-    <h1>Central de Ajuda</h1>
-    <p>Encontre artigos, tire dúvidas e acompanhe sua leitura.</p>
-    <!-- Componente 3: Barra de Progresso -->
-    <barra-progresso valor="progresso" rotulo="Artigos lidos"></barra-progresso>
+  <!-- ===== Barra de navegação (na ordem dos componentes do PDF) ===== -->
+  <header class="navbar">
+    <div class="container navbar-conteudo">
+      <span class="marca"><span class="marca-icone">?</span> Central de Ajuda</span>
+      <nav class="navbar-links">
+        <button ng-repeat="s in secoes track by s.id" ng-click="rolarPara(s.id)">
+          <span class="num">{{ $index + 1 }}</span> {{ s.rotulo }}
+        </button>
+      </nav>
+    </div>
   </header>
 
-  <main class="conteudo">
+  <!-- ===== Hero ===== -->
+  <section class="hero">
+    <div class="container">
+      <h1>Como podemos ajudar?</h1>
+      <p>Encontre respostas, leia nossos artigos e fale com a equipe de suporte.</p>
+      <div class="hero-acoes">
+        <button class="btn btn-claro" ng-click="rolarPara('faq')">Ver perguntas frequentes</button>
+        <button class="btn btn-contorno" ng-click="rolarPara('contato')">Falar com o suporte</button>
+      </div>
+    </div>
+  </section>
 
-    <section class="filtros">
-      <input type="search" placeholder="Buscar artigo..." ng-model="busca" ng-change="irPara(1)">
-      <!-- Componente 5: Menu Suspenso -->
-      <menu-suspenso rotulo="Categoria" opcoes="categorias" selecionado="categoria"
-                     ao-selecionar="mudarCategoria(opcao)"></menu-suspenso>
+  <main>
+
+    <!-- ===== 1. ACORDEÃO ===== -->
+    <section class="secao" id="faq">
+      <div class="container">
+        <header class="secao-cabecalho">
+          <span class="selo">Componente 1 · Acordeão</span>
+          <h2>Perguntas frequentes</h2>
+          <p>Clique em uma pergunta para ver a resposta. Só uma fica aberta por vez.</p>
+        </header>
+        <accordion itens="faq"></accordion>
+      </div>
     </section>
 
-    <div class="grade">
-      <section class="cartao">
-        <h2>Artigos <small>({{ total }})</small></h2>
+    <!-- ===== 2. PAGINAÇÃO ===== -->
+    <section class="secao alt" id="artigos">
+      <div class="container">
+        <header class="secao-cabecalho">
+          <span class="selo">Componente 2 · Paginação</span>
+          <h2>Artigos de ajuda <small>({{ total }})</small></h2>
+          <p>Busque pelo título e navegue entre as páginas. Clique em um artigo para ver os detalhes.</p>
+        </header>
+
+        <input class="campo" type="search" placeholder="Buscar artigo..." ng-model="busca" ng-change="irPara(1)">
+
         <p class="vazio" ng-if="!visiveis.length">Nenhum artigo encontrado.</p>
-        <ul class="lista">
+        <ul class="cartoes">
           <li ng-repeat="a in visiveis" ng-class="{ativo: a.id === artigo.id}">
-            <button ng-click="selecionar(a)">
+            <button class="artigo" ng-click="abrirArtigo(a)">
               <span class="tag">{{ a.categoria | uppercase }}</span>
               <strong>{{ a.titulo }}</strong>
-              <span>{{ a.resumo | resumir:70 }}</span>
+              <span class="resumo">{{ a.resumo | resumir:70 }}</span>
               <small>Atualizado em {{ a.atualizadoEm | date:'dd/MM/yyyy' }}<span ng-if="lido(a.id)"> · ✓ lido</span></small>
             </button>
           </li>
         </ul>
-        <!-- Componente 2: Paginação -->
+
         <paginacao total="totalPaginas" atual="pagina" ao-mudar="irPara(pagina)"></paginacao>
-      </section>
+      </div>
+    </section>
 
-      <section class="cartao">
-        <h2>{{ artigo.titulo }}</h2>
-        <!-- Componente 4: Abas -->
-        <abas itens="abas"></abas>
-        <button class="btn" ng-click="marcarLido(artigo)">Marcar como lido</button>
+    <!-- ===== 3. BARRA DE PROGRESSO ===== -->
+    <section class="secao" id="progresso">
+      <div class="container">
+        <header class="secao-cabecalho">
+          <span class="selo">Componente 3 · Barra de Progresso</span>
+          <h2>Seu progresso</h2>
+          <p>Acompanhe sua leitura e o download do guia completo.</p>
+        </header>
 
-        <label for="feedback">Este artigo ajudou? Deixe seu feedback:</label>
-        <textarea id="feedback" rows="3" ng-model="form.mensagem" placeholder="Escreva aqui..."></textarea>
-        <button class="btn" ng-click="enviarFeedback()">Enviar feedback</button>
-      </section>
-    </div>
+        <div class="grade-2">
+          <div class="cartao">
+            <h3>Leitura dos artigos</h3>
+            <barra-progresso valor="progresso" rotulo="{{ lidos }} de {{ totalArtigos }} artigos lidos"></barra-progresso>
+            <p class="dica">Marque artigos como lidos na seção 4 para a barra avançar.</p>
+          </div>
 
-    <section class="cartao">
-      <h2>Perguntas Frequentes</h2>
-      <!-- Componente 1: Acordeão -->
-      <accordion itens="faq"></accordion>
+          <div class="cartao">
+            <h3>Guia completo (PDF)</h3>
+            <barra-progresso valor="download.pct" rotulo="Download"></barra-progresso>
+            <button class="btn" ng-click="baixarGuia()" ng-disabled="download.ativo">
+              {{ download.ativo ? 'Baixando...' : 'Baixar guia' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 4. ABAS ===== -->
+    <section class="secao alt" id="detalhes">
+      <div class="container">
+        <header class="secao-cabecalho">
+          <span class="selo">Componente 4 · Abas</span>
+          <h2>{{ artigo.titulo }}</h2>
+          <p>Artigo selecionado na seção 2. Navegue pelas abas para ler cada parte.</p>
+        </header>
+
+        <div class="cartao">
+          <abas itens="abas"></abas>
+          <button class="btn" ng-click="marcarLido(artigo)">
+            {{ lido(artigo.id) ? '✓ Lido' : 'Marcar como lido' }}
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 5. MENU SUSPENSO ===== -->
+    <section class="secao" id="atendimento">
+      <div class="container">
+        <header class="secao-cabecalho">
+          <span class="selo">Componente 5 · Menu Suspenso</span>
+          <h2>Canais de atendimento</h2>
+          <p>Escolha como prefere falar com a gente e veja as informações do canal.</p>
+        </header>
+
+        <div class="cartao canal">
+          <menu-suspenso rotulo="Canal" opcoes="canais" selecionado="canal"
+                         ao-selecionar="escolherCanal(opcao)"></menu-suspenso>
+          <p><strong>{{ canal }}:</strong> {{ infoCanais[canal] }}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 6. TOAST ===== -->
+    <section class="secao alt" id="contato">
+      <div class="container">
+        <header class="secao-cabecalho">
+          <span class="selo">Componente 6 · Notificação Toast</span>
+          <h2>Fale conosco</h2>
+          <p>Envie uma mensagem pelo canal escolhido ou teste os tipos de notificação.</p>
+        </header>
+
+        <div class="grade-2">
+          <div class="cartao">
+            <h3>Enviar mensagem via {{ canal }}</h3>
+            <label for="mensagem">Sua mensagem</label>
+            <textarea id="mensagem" class="campo" rows="4" ng-model="form.mensagem" placeholder="Escreva aqui..."></textarea>
+            <button class="btn" ng-click="enviarMensagem()">Enviar</button>
+          </div>
+
+          <div class="cartao">
+            <h3>Testar notificações</h3>
+            <div class="botoes">
+              <button class="btn btn-ok" ng-click="testarToast('sucesso')">Sucesso</button>
+              <button class="btn btn-erro" ng-click="testarToast('erro')">Erro</button>
+              <button class="btn btn-info" ng-click="testarToast('info')">Informação</button>
+            </div>
+            <p class="dica">Cada toast some sozinho em 3 segundos ou ao clicar no ×.</p>
+          </div>
+        </div>
+      </div>
     </section>
 
   </main>
 
-  <!-- Componente 6: Notificação Toast -->
+  <footer class="rodape">
+    <div class="container">Central de Ajuda · Atividade de AngularJS · Engenharia de Software</div>
+  </footer>
+
   <toast-container></toast-container>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
@@ -70,6 +178,7 @@
   <script src="js/filtros.js"></script>
   <script src="js/servicos/artigos.js"></script>
   <script src="js/servicos/toast.js"></script>
+  <script src="js/servicos/navegacao.js"></script>
   <script src="js/diretivas/accordion.js"></script>
   <script src="js/diretivas/paginacao.js"></script>
   <script src="js/diretivas/barra-progresso.js"></script>

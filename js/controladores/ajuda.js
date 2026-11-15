@@ -1,21 +1,27 @@
-// Controlador da página: busca, filtro por categoria, paginação, artigo selecionado e feedback.
-angular.module('app').controller('AjudaController', function ($scope, $filter, ArtigosService, ToastService) {
+// Controlador da página: navegação, busca, paginação, artigo selecionado, progresso, canais e toasts.
+angular.module('app').controller('AjudaController', function ($scope, $filter, $interval, ArtigosService, ToastService, NavegacaoService) {
   var POR_PAGINA = 4;
 
-  $scope.categorias = ['Todas'].concat(ArtigosService.categorias);
-  $scope.categoria = 'Todas';
+  // Seções na ordem dos componentes do PDF (alimenta o menu do topo)
+  $scope.secoes = [
+    { id: 'faq', rotulo: 'FAQ' },
+    { id: 'artigos', rotulo: 'Artigos' },
+    { id: 'progresso', rotulo: 'Progresso' },
+    { id: 'detalhes', rotulo: 'Detalhes' },
+    { id: 'atendimento', rotulo: 'Atendimento' },
+    { id: 'contato', rotulo: 'Contato' }
+  ];
+  $scope.rolarPara = NavegacaoService.rolarPara;
+
   $scope.busca = '';          // ligado ao input com ng-model (two-way binding)
   $scope.form = { mensagem: '' };
   $scope.faq = ArtigosService.faq;
   $scope.lido = ArtigosService.lido;
-  $scope.progresso = ArtigosService.progresso();
+  $scope.totalArtigos = ArtigosService.lista.length;
 
-  // Aplica categoria + busca e recorta a página atual
+  // ---- 2. Artigos + paginação ----
   $scope.irPara = function (pagina) {
-    var lista = $filter('filter')(ArtigosService.lista, function (a) {
-      return $scope.categoria === 'Todas' || a.categoria === $scope.categoria;
-    });
-    lista = $filter('filter')(lista, $scope.busca);
+    var lista = $filter('filter')(ArtigosService.lista, $scope.busca);
 
     $scope.total = lista.length;
     $scope.totalPaginas = Math.max(1, Math.ceil(lista.length / POR_PAGINA));
@@ -23,13 +29,28 @@ angular.module('app').controller('AjudaController', function ($scope, $filter, A
     $scope.visiveis = $filter('limitTo')(lista, POR_PAGINA, ($scope.pagina - 1) * POR_PAGINA);
   };
 
-  // Callback do menu suspenso
-  $scope.mudarCategoria = function (categoria) {
-    $scope.categoria = categoria;
-    $scope.irPara(1);
+  // ---- 3. Progresso de leitura e download simulado ----
+  function atualizarProgresso() {
+    $scope.lidos = ArtigosService.totalLidos();
+    $scope.progresso = ArtigosService.progresso();
+  }
+
+  $scope.download = { ativo: false, pct: 0 };
+  $scope.baixarGuia = function () {
+    var d = $scope.download;
+    d.ativo = true;
+    d.pct = 0;
+    var timer = $interval(function () {
+      d.pct += 10;
+      if (d.pct >= 100) {
+        $interval.cancel(timer);
+        d.ativo = false;
+        ToastService.sucesso('Download do guia concluído!');
+      }
+    }, 250);
   };
 
-  // Monta as abas do artigo escolhido
+  // ---- 4. Artigo selecionado (abas) ----
   $scope.selecionar = function (artigo) {
     $scope.artigo = artigo;
     $scope.abas = [
@@ -39,25 +60,51 @@ angular.module('app').controller('AjudaController', function ($scope, $filter, A
     ];
   };
 
+  // Clique no card da lista: seleciona e rola até os detalhes
+  $scope.abrirArtigo = function (artigo) {
+    $scope.selecionar(artigo);
+    NavegacaoService.rolarPara('detalhes');
+  };
+
   $scope.marcarLido = function (artigo) {
     if (ArtigosService.lido(artigo.id)) {
       ToastService.info('Você já marcou este artigo como lido.');
       return;
     }
     ArtigosService.marcarLido(artigo.id);
-    $scope.progresso = ArtigosService.progresso();
+    atualizarProgresso();
     ToastService.sucesso('Artigo marcado como lido!');
   };
 
-  $scope.enviarFeedback = function () {
+  // ---- 5. Canais de atendimento (menu suspenso) ----
+  $scope.canais = ['Chat', 'E-mail', 'Telefone'];
+  $scope.canal = 'Chat';
+  $scope.infoCanais = {
+    'Chat': 'Resposta imediata, de segunda a sexta, das 8h às 18h.',
+    'E-mail': 'Respondemos em até 24 horas úteis em suporte@centraldeajuda.com.',
+    'Telefone': 'Ligue para (71) 0000-0000, de segunda a sexta, das 9h às 17h.'
+  };
+  // Callback do menu suspenso
+  $scope.escolherCanal = function (canal) { $scope.canal = canal; };
+
+  // ---- 6. Mensagem e toasts ----
+  $scope.enviarMensagem = function () {
     if (!$scope.form.mensagem.trim()) {
       ToastService.erro('Escreva uma mensagem antes de enviar.');
       return;
     }
     $scope.form.mensagem = '';
-    ToastService.sucesso('Obrigado! Seu feedback foi enviado.');
+    ToastService.sucesso('Mensagem enviada pelo canal ' + $scope.canal + '!');
   };
 
+  var mensagensTeste = {
+    sucesso: 'Operação realizada com sucesso!',
+    erro: 'Não foi possível salvar. Tente novamente.',
+    info: 'Seu atendimento começa em instantes.'
+  };
+  $scope.testarToast = function (tipo) { ToastService.mostrar(mensagensTeste[tipo], tipo); };
+
+  atualizarProgresso();
   $scope.irPara(1);
   $scope.selecionar(ArtigosService.lista[0]);
 });

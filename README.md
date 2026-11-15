@@ -1,15 +1,16 @@
 # Central de Ajuda (AngularJS)
 
-Atividade de AngularJS: página responsiva com 6 componentes feitos como diretivas.
+Atividade de AngularJS: site de ajuda responsivo com 6 componentes feitos como diretivas.
+A página segue a ordem dos componentes do enunciado (menu do topo numerado de 1 a 6).
 
-| Componente | Diretiva | Arquivo |
-|---|---|---|
-| Acordeão (FAQ) | `<accordion>` | `js/diretivas/accordion.js` |
-| Paginação (artigos) | `<paginacao>` | `js/diretivas/paginacao.js` |
-| Barra de Progresso (artigos lidos) | `<barra-progresso>` | `js/diretivas/barra-progresso.js` |
-| Abas (detalhes do artigo) | `<abas>` | `js/diretivas/abas.js` |
-| Menu Suspenso (categoria) | `<menu-suspenso>` | `js/diretivas/menu-suspenso.js` |
-| Toast (feedback) | `<toast-container>` + `ToastService` | `js/diretivas/toast.js`, `js/servicos/toast.js` |
+| # | Componente | Seção da página | Diretiva | Arquivo |
+|---|---|---|---|---|
+| 1 | Acordeão | Perguntas frequentes | `<accordion>` | `js/diretivas/accordion.js` |
+| 2 | Paginação | Artigos de ajuda | `<paginacao>` | `js/diretivas/paginacao.js` |
+| 3 | Barra de Progresso | Seu progresso (leitura e download) | `<barra-progresso>` | `js/diretivas/barra-progresso.js` |
+| 4 | Abas | Detalhes do artigo | `<abas>` | `js/diretivas/abas.js` |
+| 5 | Menu Suspenso | Canais de atendimento | `<menu-suspenso>` | `js/diretivas/menu-suspenso.js` |
+| 6 | Toast | Fale conosco | `<toast-container>` + `ToastService` | `js/diretivas/toast.js`, `js/servicos/toast.js` |
 
 Outros conceitos: módulo principal `js/app.js`, controlador `js/controladores/ajuda.js`,
 factories em `js/servicos/`, filtro customizado em `js/filtros.js`, `ng-model`, `ng-click`, `ng-change`.
