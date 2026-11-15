@@ -1,8 +1,9 @@
 /* Mobile-first: estilos base para celular; media queries ampliam para tablet/desktop. */
 :root {
-  --cor: #2563eb; --cor-escura: #1e40af; --fundo: #f3f4f6; --cartao: #fff;
-  --texto: #1f2937; --suave: #6b7280; --borda: #e5e7eb; --claro: #eff6ff;
-  --ok: #16a34a; --erro: #dc2626; --info: #2563eb;
+  /* Paleta: bege + branco, com marrom-caramelo como cor de destaque */
+  --cor: #8a6a45; --cor-escura: #6b4f31; --fundo: #f5efe4; --cartao: #fff;
+  --texto: #3b2f23; --suave: #7a6a58; --borda: #e6dbc8; --claro: #f3eadb;
+  --ok: #4d7c3a; --erro: #b5483a; --info: #8a6a45;
 }
 * { box-sizing: border-box; }
 body { margin: 0; font-family: system-ui, sans-serif; background: var(--fundo); color: var(--texto); line-height: 1.5; }
@@ -29,9 +30,9 @@ accordion, abas, paginacao, barra-progresso, menu-suspenso, toast-container { di
 .num { display: inline-grid; place-items: center; width: 1.3rem; height: 1.3rem; margin-right: .15rem; border-radius: 50%; background: var(--claro); color: var(--cor); font-size: .75rem; font-weight: 700; }
 
 /* Hero */
-.hero { background: linear-gradient(135deg, var(--cor), var(--cor-escura)); color: #fff; padding: 3rem 0; text-align: center; }
+.hero { background: linear-gradient(135deg, #f0e6d2, #dcc7a3); color: var(--texto); padding: 3rem 0; text-align: center; }
 .hero h1 { margin: 0 0 .5rem; font-size: 2rem; }
-.hero p { margin: 0 auto 1.5rem; max-width: 560px; opacity: .92; }
+.hero p { margin: 0 auto 1.5rem; max-width: 560px; color: var(--cor-escura); }
 .hero-acoes { display: flex; flex-wrap: wrap; gap: .75rem; justify-content: center; }
 
 /* Seções (uma por componente) */
@@ -43,7 +44,7 @@ accordion, abas, paginacao, barra-progresso, menu-suspenso, toast-container { di
 .secao-cabecalho p { margin: 0; color: var(--suave); }
 .selo { display: inline-block; padding: .15rem .65rem; border-radius: 999px; background: var(--claro); color: var(--cor); font-size: .78rem; font-weight: 700; letter-spacing: .03em; text-transform: uppercase; }
 
-.rodape { padding: 1.5rem 0; background: #1f2937; color: #d1d5db; text-align: center; font-size: .9rem; }
+.rodape { padding: 1.5rem 0; background: var(--cor-escura); color: var(--borda); text-align: center; font-size: .9rem; }
 
 /* ===== Elementos comuns ===== */
 .cartao { background: var(--cartao); border: 1px solid var(--borda); border-radius: 10px; padding: 1.1rem; }
@@ -62,10 +63,10 @@ label { display: block; margin-bottom: .25rem; font-size: .9rem; color: var(--su
 .cartao .btn { margin-top: .9rem; }
 .btn-claro { background: #fff; color: var(--cor); }
 .btn-claro:hover:not(:disabled) { background: var(--claro); }
-.btn-contorno { background: none; border: 2px solid #fff; }
-.btn-contorno:hover:not(:disabled) { background: rgba(255, 255, 255, .15); }
-.btn-ok { background: var(--ok); } .btn-ok:hover:not(:disabled) { background: #15803d; }
-.btn-erro { background: var(--erro); } .btn-erro:hover:not(:disabled) { background: #b91c1c; }
+.btn-contorno { background: none; border: 2px solid var(--cor); color: var(--cor-escura); }
+.btn-contorno:hover:not(:disabled) { background: rgba(255, 255, 255, .5); }
+.btn-ok { background: var(--ok); } .btn-ok:hover:not(:disabled) { background: #3f6830; }
+.btn-erro { background: var(--erro); } .btn-erro:hover:not(:disabled) { background: #963a2e; }
 .btn-info { background: var(--info); }
 .botoes { display: flex; flex-wrap: wrap; gap: .5rem; }
 .botoes .btn { margin-top: 0; }
