@@ -1,8 +1,6 @@
-// Controlador da página: navegação, busca, paginação, artigo selecionado, progresso, canais e toasts.
 angular.module('app').controller('AjudaController', function ($scope, $filter, $interval, ArtigosService, ToastService, NavegacaoService) {
   var POR_PAGINA = 4;
 
-  // Seções na ordem dos componentes do PDF (alimenta o menu do topo)
   $scope.secoes = [
     { id: 'faq', rotulo: 'FAQ' },
     { id: 'artigos', rotulo: 'Artigos' },
@@ -13,13 +11,12 @@ angular.module('app').controller('AjudaController', function ($scope, $filter, $
   ];
   $scope.rolarPara = NavegacaoService.rolarPara;
 
-  $scope.busca = '';          // ligado ao input com ng-model (two-way binding)
+  $scope.busca = '';
   $scope.form = { mensagem: '' };
   $scope.faq = ArtigosService.faq;
   $scope.lido = ArtigosService.lido;
   $scope.totalArtigos = ArtigosService.lista.length;
 
-  // ---- 2. Artigos + paginação ----
   $scope.irPara = function (pagina) {
     var lista = $filter('filter')(ArtigosService.lista, $scope.busca);
 
@@ -29,7 +26,6 @@ angular.module('app').controller('AjudaController', function ($scope, $filter, $
     $scope.visiveis = $filter('limitTo')(lista, POR_PAGINA, ($scope.pagina - 1) * POR_PAGINA);
   };
 
-  // ---- 3. Progresso de leitura e download simulado ----
   function atualizarProgresso() {
     $scope.lidos = ArtigosService.totalLidos();
     $scope.progresso = ArtigosService.progresso();
@@ -50,7 +46,6 @@ angular.module('app').controller('AjudaController', function ($scope, $filter, $
     }, 250);
   };
 
-  // ---- 4. Artigo selecionado (abas) ----
   $scope.selecionar = function (artigo) {
     $scope.artigo = artigo;
     $scope.abas = [
@@ -60,7 +55,6 @@ angular.module('app').controller('AjudaController', function ($scope, $filter, $
     ];
   };
 
-  // Clique no card da lista: seleciona e rola até os detalhes
   $scope.abrirArtigo = function (artigo) {
     $scope.selecionar(artigo);
     NavegacaoService.rolarPara('detalhes');
@@ -76,7 +70,6 @@ angular.module('app').controller('AjudaController', function ($scope, $filter, $
     ToastService.sucesso('Artigo marcado como lido!');
   };
 
-  // ---- 5. Canais de atendimento (menu suspenso) ----
   $scope.canais = ['Chat', 'E-mail', 'Telefone'];
   $scope.canal = 'Chat';
   $scope.infoCanais = {
@@ -84,10 +77,8 @@ angular.module('app').controller('AjudaController', function ($scope, $filter, $
     'E-mail': 'Respondemos em até 24 horas úteis em suporte@centraldeajuda.com.',
     'Telefone': 'Ligue para (71) 0000-0000, de segunda a sexta, das 9h às 17h.'
   };
-  // Callback do menu suspenso
   $scope.escolherCanal = function (canal) { $scope.canal = canal; };
 
-  // ---- 6. Mensagem e toasts ----
   $scope.enviarMensagem = function () {
     if (!$scope.form.mensagem.trim()) {
       ToastService.erro('Escreva uma mensagem antes de enviar.');

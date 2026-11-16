@@ -1,4 +1,3 @@
-// Abas: recebe os itens ({titulo, conteudo}) via binding e guarda a aba ativa no $scope.
 angular.module('app.diretivas').directive('abas', function () {
   return {
     restrict: 'E',
@@ -15,7 +14,6 @@ angular.module('app.diretivas').directive('abas', function () {
 
       $scope.selecionar = function (indice) { $scope.ativa = indice; };
 
-      // Ao trocar o conteúdo (outro artigo), volta para a primeira aba
       $scope.$watch('itens', function () { $scope.ativa = 0; });
     }
   };

@@ -1,4 +1,3 @@
-// Barra de progresso: recebe o valor (0-100) via binding e ajusta a largura do preenchimento.
 angular.module('app.diretivas').directive('barraProgresso', function () {
   return {
     restrict: 'E',
@@ -11,7 +10,6 @@ angular.module('app.diretivas').directive('barraProgresso', function () {
         '</div>' +
       '</div>',
     controller: function ($scope) {
-      // Garante que o valor fique entre 0 e 100
       $scope.pct = function () {
         return Math.round(Math.min(100, Math.max(0, $scope.valor || 0)));
       };

@@ -1,5 +1,3 @@
-// Menu suspenso: visibilidade no $scope, opções via binding e callback (ao-selecionar).
-// Fecha ao escolher uma opção ou ao clicar fora.
 angular.module('app.diretivas').directive('menuSuspenso', function ($document) {
   return {
     restrict: 'E',
@@ -23,7 +21,6 @@ angular.module('app.diretivas').directive('menuSuspenso', function ($document) {
         scope.aoSelecionar({ opcao: opcao });
       };
 
-      // Clique fora do menu: fecha
       function cliqueFora(evento) {
         if (scope.aberto && !elemento[0].contains(evento.target)) {
           scope.$apply(function () { scope.aberto = false; });

@@ -1,4 +1,3 @@
-// Container das notificações toast. A fila e o temporizador ficam no ToastService.
 angular.module('app.diretivas').directive('toastContainer', function (ToastService) {
   return {
     restrict: 'E',

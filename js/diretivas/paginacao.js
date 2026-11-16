@@ -1,4 +1,3 @@
-// Paginação: recebe total de páginas e página atual; avisa o pai por callback (ao-mudar).
 angular.module('app.diretivas').directive('paginacao', function () {
   return {
     restrict: 'E',
@@ -18,7 +17,7 @@ angular.module('app.diretivas').directive('paginacao', function () {
 
       $scope.ir = function (pagina) {
         if (pagina < 1 || pagina > $scope.total || pagina === $scope.atual) { return; }
-        $scope.aoMudar({ pagina: pagina }); // callback: o controlador decide o que fazer
+        $scope.aoMudar({ pagina: pagina });
       };
     }
   };

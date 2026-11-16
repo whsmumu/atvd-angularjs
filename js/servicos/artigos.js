@@ -1,4 +1,3 @@
-// Factory com os dados da Central de Ajuda e a lógica de "artigos lidos".
 angular.module('app.servicos').factory('ArtigosService', function () {
   var lista = [
     { id: 1, categoria: 'Conta', titulo: 'Como criar sua conta',
@@ -60,7 +59,6 @@ angular.module('app.servicos').factory('ArtigosService', function () {
     lido: function (id) { return !!lidos[id]; },
     marcarLido: function (id) { lidos[id] = true; },
     totalLidos: function () { return Object.keys(lidos).length; },
-    // Progresso de leitura em % (0-100)
     progresso: function () {
       return Math.round(this.totalLidos() / lista.length * 100);
     }

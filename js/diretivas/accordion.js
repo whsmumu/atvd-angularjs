@@ -1,4 +1,3 @@
-// Acordeão: recebe os itens ({titulo, conteudo}) via binding e mantém só um aberto por vez.
 angular.module('app.diretivas').directive('accordion', function () {
   return {
     restrict: 'E',
@@ -13,7 +12,7 @@ angular.module('app.diretivas').directive('accordion', function () {
         '</div>' +
       '</div>',
     controller: function ($scope) {
-      $scope.aberto = -1; // -1 = nenhum item aberto
+      $scope.aberto = -1;
 
       $scope.alternar = function (indice) {
         $scope.aberto = $scope.aberto === indice ? -1 : indice;

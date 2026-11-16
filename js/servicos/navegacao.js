@@ -1,4 +1,3 @@
-// Serviço de navegação: rola suavemente até uma seção da página pelo id.
 angular.module('app.servicos').factory('NavegacaoService', function ($document) {
   return {
     rolarPara: function (id) {
