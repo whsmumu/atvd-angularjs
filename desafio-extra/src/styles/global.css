@@ -1,7 +1,7 @@
 :root {
-  --cor: #8a6a45; --cor-escura: #6b4f31; --fundo: #f5efe4; --cartao: #fff;
-  --texto: #3b2f23; --suave: #7a6a58; --borda: #e6dbc8; --claro: #f3eadb;
-  --ok: #4d7c3a; --erro: #b5483a; --info: #8a6a45;
+  --cor: #059669; --cor-escura: #047857; --fundo: #f0fdf4; --cartao: #fff;
+  --texto: #14352a; --suave: #5b7a6b; --borda: #d3eadb; --claro: #e3f6ea;
+  --ok: #15803d; --erro: #dc2626; --info: #0369a1;
 }
 * { box-sizing: border-box; }
 body { margin: 0; font-family: system-ui, sans-serif; background: var(--fundo); color: var(--texto); line-height: 1.5; }
@@ -22,7 +22,7 @@ h1, h2, h3 { line-height: 1.25; }
 .navbar-links button:hover { background: var(--claro); color: var(--cor); }
 .num { display: inline-grid; place-items: center; width: 1.3rem; height: 1.3rem; margin-right: .15rem; border-radius: 50%; background: var(--claro); color: var(--cor); font-size: .75rem; font-weight: 700; }
 
-.hero { background: linear-gradient(135deg, #f0e6d2, #dcc7a3); color: var(--texto); padding: 3rem 0; text-align: center; }
+.hero { background: linear-gradient(135deg, #dcfce7, #a7f3d0); color: var(--texto); padding: 3rem 0; text-align: center; }
 .hero h1 { margin: 0 0 .5rem; font-size: 2rem; }
 .hero p { margin: 0 auto 1.5rem; max-width: 560px; color: var(--cor-escura); }
 .hero-acoes { display: flex; flex-wrap: wrap; gap: .75rem; justify-content: center; }
@@ -55,9 +55,9 @@ label { display: block; margin-bottom: .25rem; font-size: .9rem; color: var(--su
 .btn-claro:hover:not(:disabled) { background: var(--claro); }
 .btn-contorno { background: none; border: 2px solid var(--cor); color: var(--cor-escura); }
 .btn-contorno:hover:not(:disabled) { background: rgba(255, 255, 255, .5); }
-.btn-ok { background: var(--ok); } .btn-ok:hover:not(:disabled) { background: #3f6830; }
-.btn-erro { background: var(--erro); } .btn-erro:hover:not(:disabled) { background: #963a2e; }
-.btn-info { background: var(--info); }
+.btn-ok { background: var(--ok); } .btn-ok:hover:not(:disabled) { background: #166534; }
+.btn-erro { background: var(--erro); } .btn-erro:hover:not(:disabled) { background: #b91c1c; }
+.btn-info { background: var(--info); } .btn-info:hover:not(:disabled) { background: #075985; }
 .botoes { display: flex; flex-wrap: wrap; gap: .5rem; }
 .botoes .btn { margin-top: 0; }
 
